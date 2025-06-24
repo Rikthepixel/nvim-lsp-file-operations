@@ -1,5 +1,5 @@
 local log = require("plenary.log")
 
 return log.new({
-	plugin = "nvim-lsp-file-operations",
+	plugin = "lsp-file-operations.nvim",
 }, false)

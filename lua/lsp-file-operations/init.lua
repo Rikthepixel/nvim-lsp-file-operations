@@ -2,6 +2,20 @@ local M = {}
 
 local log = require("lsp-file-operations.log")
 
+--- @class OperationsConfigStrict
+--- @field willRenameFiles boolean Enable willRenameFiles operation
+--- @field didRenameFiles boolean Enable didRenameFiles operation
+--- @field willCreateFiles boolean Enable willCreateFiles operation
+--- @field didCreateFiles boolean Enable didCreateFiles operation
+--- @field willDeleteFiles boolean Enable willDeleteFiles operation
+--- @field didDeleteFiles boolean Enable didDeleteFiles operation
+
+--- @class ConfigStrict
+--- @field debug boolean Enable debug logging
+--- @field timeout_ms number Timeout in milliseconds for file operations
+--- @field operations OperationsConfigStrict A table of file operations to enable
+
+--- @type ConfigStrict
 local default_config = {
 	debug = false,
 	timeout_ms = 10000,
@@ -14,6 +28,12 @@ local default_config = {
 		didDeleteFiles = true,
 	},
 }
+
+--- @module
+--- @class (exact) OperationsConfig : OperationsConfigStrict, {}
+
+--- @class (exact) Config : ConfigStrict, {}
+--- @field operations? OperationsConfig A table of file operations to enable
 
 local modules = {
 	willRenameFiles = "lsp-file-operations.will-rename",
@@ -51,6 +71,7 @@ local function setup_events(op_events, subscribe)
 	end
 end
 
+--- @param opts? Config
 M.setup = function(opts)
 	M.config = vim.tbl_deep_extend("force", default_config, opts or {})
 	if M.config.debug then
